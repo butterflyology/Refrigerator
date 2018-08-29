@@ -3,10 +3,7 @@ title: "Refrigerators"
 author: "Chris Hamm"
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 output: 
-  html_document:
-    toc: TRUE
-    toc_float: TRUE
-    toc_depth: 3
+  html_document
 ---
 
 ```{r setup, include = FALSE}
@@ -28,8 +25,10 @@ library('kableExtra')
 data <- read_csv("../data/Refrigerators.csv", col_names = TRUE, col_types = list(Brand = col_character(), Model = col_character(), Score = col_integer(), Price = col_integer(), Type = col_character()))
 ```
 
-Let's take a look at the data.
-
+Here are the data as transcribed from **Consumer Reports**:
+\
+\
+\
 ```{r table_1, echo = FALSE}
 col_names <- c("Brand", "Model", "Score", "Price (USD)", "Type")
 
@@ -38,8 +37,11 @@ knitr::kable(x = data, format = "html", align = "c", col.names = col_names) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
   scroll_box(width = "650px", height = "300px")
 ```
-
+\
+\
+\
 Below is a searchable plot with the price and score of refrigerators coded by brand and type. 
+\
 
 ```{r plot1, echo = FALSE}
 plot1 <- ggplot(data, aes(x = Score, y = Price, color = Brand, group = Brand)) +
