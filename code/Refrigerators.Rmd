@@ -1,0 +1,54 @@
+---
+title: "Refrigerators"
+author: "Chris Hamm"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 3
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Code for refridgerator research
+
+```{r preliminaries, include = FALSE}
+set.seed(7823642)
+library('dplyr')
+library('readr')
+library('ggplot2')
+library('plotly')
+library('kableExtra')
+```
+
+```{r load_data, echo = FALSE}
+data <- read_csv("../data/Refrigerators.csv", col_names = TRUE, col_types = list(Brand = col_character(), Model = col_character(), Score = col_integer(), Price = col_integer(), Type = col_character()))
+```
+
+Let's take a look at the data.
+
+```{r table_1, echo = FALSE}
+col_names <- c("Brand", "Model", "Score", "Price (USD)", "Type")
+
+knitr::kable(x = data, format = "html", align = "c", col.names = col_names) %>% 
+  row_spec(row = 1:2, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  scroll_box(width = "650px", height = "300px")
+```
+
+Below is a searchable plot with the price and score of refrigerators coded by brand and type. 
+
+```{r plot1, echo = FALSE}
+plot1 <- ggplot(data, aes(x = Score, y = Price, color = Brand, group = Brand)) +
+  geom_point(aes(shape = Type), size = 4) +
+  theme_bw() + 
+  coord_cartesian(xlim = c(50, 100), ylim = c(0, 10000)) +
+  ylab("Price (USD)")
+  
+plot1_plotly <- ggplotly(plot1)
+plot1_plotly_str <- plotly_build(plot1_plotly) 
+plot1_plotly_str
+```
